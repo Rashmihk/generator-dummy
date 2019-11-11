@@ -55,8 +55,10 @@
         return <%= entityListToDtoListReference %>(<%= entityInstancePlural %>);<% } else { %>
         return <%= entityInstance %>Repository.<% if (fieldsContainOwnerManyToMany) { %>findAllWithEagerRelationships<% } else { %>findAll<% } %>();<% } %>
     <%_ } if (pagination !== 'no') { _%>
-    public ResponseEntity<List<<%= instanceType %>>> getAll<%= entityClassPlural %>(Pageable pageable<% if (reactive) { %>, ServerHttpRequest request<% } %><% if (fieldsContainNoOwnerOneToOne) { %>, @RequestParam(required = false) String filter<% } %><% if (fieldsContainOwnerManyToMany) { %>, @RequestParam(required = false, defaultValue = "false") boolean eagerload<% } %>) {<%- include('get_all_stream_template', {viaService: viaService}); -%>
+    public ResponseEntity<List<<%= instanceType %>>> getAll<%= entityClassPlural %>(Pageable pageable<% if (reactive) { %>, ServerHttpRequest request<% } %><% if (fieldsContainNoOwnerOneToOne) { %>, @RequestParam(required = false) String filter<% } %>, @RequestParam(value = "exportType", required = false) String exportType
+        <% if (fieldsContainOwnerManyToMany) { %>, @RequestParam(required = false, defaultValue = "false") boolean eagerload<% } %>) {<%- include('get_all_stream_template', {viaService: viaService}); -%>
         log.debug("REST request to get a page of <%= entityClassPlural %>");
+        if(exportType==null) {
     <%_ if (viaService) { _%>
         <%_ if (fieldsContainOwnerManyToMany) { _%>
         Page<<%= instanceType %>> page;
@@ -85,6 +87,38 @@
         <%_ } _%>
     <%_ } _%>
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+        }
     <%_ } _%>
+    else{
+        List<String> excludedHeader = new ArrayList<>();
+			excludedHeader.add("id");
+			Date date = Calendar.getInstance().getTime();
+			DateFormat dateFormat = new SimpleDateFormat("hhmmssSSS");
+			String strDate = dateFormat.format(date);
+			String fileName = "Demo_"+strDate;
+
+			List<<%= instanceType %>> demoList = (List<<%= instanceType %>>) <%= entityInstance %>Service.findAll(pageable);
+
+			ReportFileType report = reportGenerator.generateListingReport(
+					demoList,
+					exportType,
+					get<%= entityClass %>ReportHeader(),
+					"<%= entityClass %>",
+					"<%= entityClass %>",
+					"<%= entityClass %> Report",
+					excludedHeader,
+					null);           
+			if(report.getReportFile().exists()){
+				FileOperation inputStream;
+				try {
+					inputStream = new FileOperation(report.getReportFile());
+					return new ResponseEntity(new InputStreamResource(inputStream), report.getHttpHeader(),
+							HttpStatus.OK);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+    }
     }
 <%_ } _%>

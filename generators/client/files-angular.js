@@ -160,7 +160,12 @@ const files = {
                 { file: 'layouts/footer/footer.component.html', method: 'processHtml' },
                 { file: 'layouts/error/error.route.ts', method: 'processJs' },
                 { file: 'layouts/error/error.component.ts', method: 'processJs' },
-                { file: 'layouts/error/error.component.html', method: 'processHtml' }
+                { file: 'layouts/error/error.component.html', method: 'processHtml' },
+                //breadcrumb
+                { file: 'layouts/breadcrumb/breadcrumb.component.html', method: 'processHtml' },
+                { file: 'layouts/breadcrumb/breadcrumb.component.ts', method: 'processJs' },
+                { file: 'layouts/breadcrumb/breadcrumb.model.ts', method: 'processJs' },
+                { file: 'layouts/breadcrumb/breadcrumb.module.ts', method: 'processJs' },
             ]
         },
         {
@@ -378,7 +383,32 @@ const files = {
                 'shared/alert/alert.component.ts',
                 'shared/alert/alert-error.component.ts',
                 // dates
-                'shared/util/datepicker-adapter.ts'
+                'shared/util/datepicker-adapter.ts',
+                // form
+                'shared/component/form/form.component.html',
+                'shared/component/form/form.component.ts',
+                'shared/component/form/form.module.ts',
+                'shared/component/form/form.model.ts',
+                 // pagination 
+                 'shared/component/pagination/index.ts',
+                 'shared/component/pagination/page-data.model.ts',
+                 'shared/component/pagination/page-size-selector.component.html',
+                 'shared/component/pagination/page-size-selector.component.ts',
+                 'shared/component/pagination/pagination.component.html',
+                 'shared/component/pagination/pagination.component.ts',
+                 'shared/component/pagination/pagination.module.ts',
+                 // util
+                 'shared/util/observable-unsubscription-utils.ts',
+                 'shared/util/query-params-state/index.ts',
+                 'shared/util/query-params-state/query-params-state.ts',
+                 'shared/util/query-params-state/state-param.model.ts',
+                 // spinner
+                 'shared/component/spinner/index.ts',
+                 'shared/component/spinner/spinner.component.html',
+                 'shared/component/spinner/spinner.component.scss',
+                 'shared/component/spinner/spinner.component.ts',
+                 'shared/component/spinner/spinner.module.ts',
+                 'shared/component/spinner/spinner.service.ts',
             ]
         },
         {

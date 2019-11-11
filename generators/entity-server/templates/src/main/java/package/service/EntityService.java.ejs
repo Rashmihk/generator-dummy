@@ -52,6 +52,7 @@ public interface <%= entityClass %>Service {
      * @param <%= instanceName %> the entity to save.
      * @return the persisted entity.
      */
+    
     <%= instanceType %> save(<%= instanceType %> <%= instanceName %>);
 
     /**
@@ -95,6 +96,8 @@ public interface <%= entityClass %>Service {
      */
     Optional<<%= instanceType %>> findOne(<%= pkType %> id);
 
+    List<<%= instanceType %>> findAll();
+
     /**
      * Delete the "id" <%= entityInstance %>.
      *
@@ -110,5 +113,10 @@ public interface <%= entityClass %>Service {
      * @param pageable the pagination information.<% } %>
      * @return the list of entities.
      */
+
+    
     <% if (pagination !== 'no') { %>Page<<%= instanceType %><% } else { %>List<<%= instanceType %><% } %>> search(String query<% if (pagination !== 'no') { %>, Pageable pageable<% } %>);<% } %>
+        
 }
+
+.
